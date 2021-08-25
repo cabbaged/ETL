@@ -1,0 +1,17 @@
+version: "3.2"
+
+services:
+    postgres_movies:
+        image: postgres:latest
+        container_name: postgres_movies
+        environment:
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+        ports:
+            - 5432:5432 # remove
+        volumes:
+            - movies_data:/var/lib/postgresql/data
+
+
+
+volumes:
+  movies_data:

@@ -1,0 +1,44 @@
+version: "3.2"
+
+services:
+    movies:
+        build:
+            context: ..
+            dockerfile: docker/Dockerfile
+        env_file:
+            - .env
+        container_name: movies
+        image: movies
+        volumes:
+            - django_static:/project/static
+        tty: true
+        depends_on:
+            - postgres_movies
+        restart: always
+    postgres_movies:
+        image: postgres:latest
+        container_name: postgres_movies
+        environment:
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+        volumes:
+            - movies_data:/var/lib/postgresql/data
+    nginx:
+        image: nginx:latest
+        container_name: nginx_movies
+        depends_on:
+            - movies
+        ports:
+            - "80:80"
+        volumes:
+            - django_static:/data/static
+            - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+            - ./nginx/configs:/etc/nginx/conf.d
+
+networks:
+    default:
+        name: movies-network
+
+
+volumes:
+  django_static:
+  movies_data:
