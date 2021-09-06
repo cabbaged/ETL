@@ -13,3 +13,6 @@ $ make static
 
 Для проведения миграции:
 $ make migration
+
+Для наполнения данными:
+$ make data

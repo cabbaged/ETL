@@ -18,6 +18,8 @@ services:
     postgres_movies:
         image: postgres:latest
         container_name: postgres_movies
+        ports:
+            - "5432:5432"
         environment:
             POSTGRES_PASSWORD: ${DB_PASSWORD}
         volumes:

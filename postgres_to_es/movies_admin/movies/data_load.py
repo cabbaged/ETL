@@ -5,6 +5,8 @@ import random
 import sys
 import uuid
 
+from django.db.utils import IntegrityError
+
 sys.path.append("..")
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.dev")
 django.setup()
@@ -62,12 +64,15 @@ if __name__ == '__main__':
     batches = 10001
     for i in range(1, batches + 1):
         print(f'generating batch {i} out of {batches}')
-        UserFactory()
-        ps = PersonFactory.create_batch(50)
-        gs = GenreFactory.create_batch(10)
-        FilmworkFactory.create_batch(100,
-                                     genre=random.sample(gs, k=random.randint(0, 3)),
-                                     persons=random.sample(ps, k=random.randint(0, 5))
-                                     )
-
+        try:
+            UserFactory()
+            ps = PersonFactory.create_batch(50)
+            gs = GenreFactory.create_batch(10)
+            FilmworkFactory.create_batch(100,
+                                         genre=random.sample(gs, k=random.randint(0, 3)),
+                                         persons=random.sample(ps, k=random.randint(0, 5))
+                                         )
+        except IntegrityError as e:
+            print('skipping')
+            print(e)
     print("finished")
