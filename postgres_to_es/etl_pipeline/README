@@ -1,0 +1,12 @@
+Для запуска проекта необходимо:
+1. Поднять es по инструкции в es/README
+2. Поднять бд постгрес по инструкции в movies_admin/docker/README
+3. Установить зависимости:
+$ cd etl_pipeline
+$ pip install -r requirements.txt
+
+Прогон скрипта запускается командой:
+$ python manager.py  --config etc/config.ini --entity person
+, где entity может быть person, genre, film_work.
+
+Пример запуска по крону находится в etc/etl.cron
