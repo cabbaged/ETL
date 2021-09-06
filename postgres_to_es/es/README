@@ -1,0 +1,5 @@
+Поднять es:
+$ make run
+
+Применить схему:
+$ make schema
